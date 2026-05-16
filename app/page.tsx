@@ -4,11 +4,13 @@ import { motion } from "framer-motion";
 import Link from "next/link";
 import BackgroundAtmosphere from "@/components/BackgroundAtmosphere";
 import Navbar from "@/components/Navbar";
+import PageGlowBorder from "@/components/PageGlowBorder";
 
 export default function LandingPage() {
   return (
     <div className="relative min-h-screen flex flex-col overflow-hidden" style={{ backgroundColor: "#050507" }}>
       <BackgroundAtmosphere />
+      <PageGlowBorder />
       <Navbar showEnter={false} />
 
       <main className="relative z-10 flex-1 flex flex-col items-center justify-center px-6 pt-20 pb-16 min-h-screen">
