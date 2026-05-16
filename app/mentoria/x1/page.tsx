@@ -444,7 +444,7 @@ export default function MentoriaX1() {
               </motion.button>
             </Link>
             <a
-              href="https://area.gabrielmaia.site"
+              href="https://fluxo.gabrielmaia.site"
               target="_blank"
               rel="noopener noreferrer"
               className="block text-center text-sm mt-4 cursor-pointer"
