@@ -305,17 +305,6 @@ function StepEscolha({ onNext }: { onNext: (id: string) => void }) {
               <p className="text-sm leading-relaxed mb-4" style={{ color: "#9B9BA1" }}>
                 {m.description}
               </p>
-              <div className="flex flex-wrap gap-1.5 mb-5">
-                {m.tags.map((t) => (
-                  <span
-                    key={t}
-                    className="text-xs px-2 py-0.5 rounded"
-                    style={{ background: "rgba(139,92,246,0.1)", color: "#A855F7", border: "1px solid rgba(168,85,247,0.2)" }}
-                  >
-                    {t}
-                  </span>
-                ))}
-              </div>
             </div>
             <div className="flex items-center justify-between mt-auto pt-4" style={{ borderTop: "1px solid rgba(255,255,255,0.06)" }}>
               <span className="font-bold text-lg" style={{ color: m.locked ? "#9B9BA1" : "#F4F4F5" }}>
