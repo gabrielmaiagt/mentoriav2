@@ -40,11 +40,11 @@ export default function LandingPage() {
             className="font-black leading-[1.05] mb-6"
             style={{ fontSize: "clamp(2.6rem, 6vw, 4.5rem)", color: "#F4F4F5", letterSpacing: "-0.02em" }}
           >
-            Aprenda a estruturar{" "}
+            Aprenda a validar, vender e{" "}
             <span style={{ color: "#A855F7", textShadow: "0 0 30px rgba(168,85,247,0.35)" }}>
-              operações reais
+              escalar
             </span>{" "}
-            usando X1, TikTok Ads e tráfego direto.
+            rodando X1, tráfego direto ou TikTok Ads.
           </motion.h1>
 
           <motion.p
