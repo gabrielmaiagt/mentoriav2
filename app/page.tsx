@@ -55,6 +55,38 @@ export default function LandingPage() {
             Oferta, criativo, validação, escala e conversão aplicados na prática.
           </motion.p>
 
+          {/* Card do mentor */}
+          <motion.div
+            variants={{ hidden: { opacity: 0, y: 16 }, visible: { opacity: 1, y: 0, transition: { duration: 0.7 } } }}
+            className="flex items-center gap-4 px-5 py-4 rounded-2xl mb-8"
+            style={{
+              background: "#0D0D12",
+              border: "1px solid rgba(255,255,255,0.07)",
+              boxShadow: "0 0 30px rgba(139,92,246,0.06)",
+            }}
+          >
+            {/* Avatar */}
+            <div
+              className="w-12 h-12 rounded-full flex-shrink-0 flex items-center justify-center font-black text-lg"
+              style={{
+                background: "linear-gradient(135deg, #8B5CF6, #A855F7)",
+                boxShadow: "0 0 18px rgba(168,85,247,0.45)",
+                color: "#fff",
+              }}
+            >
+              G
+            </div>
+            {/* Info */}
+            <div className="text-left">
+              <p className="font-bold text-sm leading-tight" style={{ color: "#F4F4F5" }}>
+                Gabriel Maia
+              </p>
+              <p className="text-xs mt-0.5" style={{ color: "#9B9BA1" }}>
+                Validando ofertas na velocidade do som.
+              </p>
+            </div>
+          </motion.div>
+
           <motion.div
             variants={{ hidden: { opacity: 0, y: 16 }, visible: { opacity: 1, y: 0, transition: { duration: 0.7 } } }}
           >
