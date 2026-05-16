@@ -8,7 +8,7 @@ import Navbar from "@/components/Navbar";
 import ProgressBar from "@/components/ProgressBar";
 import { saveLead } from "@/lib/firestore";
 
-const TOTAL_STEPS = 4;
+const TOTAL_STEPS = 5;
 
 // ────────────────────────── helpers ──────────────────────────
 
@@ -133,7 +133,7 @@ function StepMentalidade({ onNext }: { onNext: () => void }) {
 
   return (
     <StepWrapper>
-      <StepLabel>03 / 04</StepLabel>
+      <StepLabel>03 / 05</StepLabel>
       <StepTitle>Confirme seu perfil</StepTitle>
       <StepSub>Confirme os pontos abaixo.</StepSub>
       <div className="w-full max-w-md space-y-3">
@@ -179,6 +179,64 @@ function StepMentalidade({ onNext }: { onNext: () => void }) {
   );
 }
 
+// ────────────────────────── Step: Nível ──────────────────────────
+
+const niveis = [
+  { id: "iniciante", label: "Totalmente iniciante" },
+  { id: "basico", label: "Sei o básico" },
+  { id: "fatura", label: "Já faturo mas não escalo" },
+  { id: "escala", label: "Escalo mas tenho gargalos" },
+];
+
+function StepNivel({ onNext }: { onNext: (nivel: string) => void }) {
+  const [selected, setSelected] = useState<string | null>(null);
+
+  return (
+    <StepWrapper>
+      <StepLabel>04 / 05</StepLabel>
+      <StepTitle>Qual é o seu nível de experiência no mercado digital?</StepTitle>
+      <StepSub>Relaxa, pra você que é topo de funil ainda tem salvação.</StepSub>
+      <div className="w-full max-w-md space-y-3">
+        {niveis.map((n, i) => (
+          <motion.button
+            key={n.id}
+            initial={{ opacity: 0, x: -12 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ delay: 0.15 + i * 0.07 }}
+            onClick={() => setSelected(n.id)}
+            className="w-full flex items-center gap-4 px-5 py-4 rounded-xl text-left"
+            style={{
+              background: selected === n.id ? "rgba(139,92,246,0.1)" : "#0D0D12",
+              border: `1px solid ${selected === n.id ? "rgba(168,85,247,0.35)" : "rgba(255,255,255,0.07)"}`,
+              transition: "all 0.2s ease",
+            }}
+          >
+            <div
+              className="w-5 h-5 rounded-full flex items-center justify-center flex-shrink-0"
+              style={{
+                background: selected === n.id ? "linear-gradient(135deg, #8B5CF6, #A855F7)" : "rgba(255,255,255,0.04)",
+                border: selected === n.id ? "none" : "1px solid rgba(255,255,255,0.12)",
+                boxShadow: selected === n.id ? "0 0 10px rgba(168,85,247,0.4)" : "none",
+                transition: "all 0.2s ease",
+              }}
+            >
+              {selected === n.id && (
+                <div className="w-2 h-2 rounded-full" style={{ background: "#fff" }} />
+              )}
+            </div>
+            <span className="text-sm font-medium" style={{ color: selected === n.id ? "#F4F4F5" : "#9B9BA1" }}>
+              {n.label}
+            </span>
+          </motion.button>
+        ))}
+      </div>
+      <StepCTA disabled={!selected} onClick={() => selected && onNext(selected)}>
+        Continuar
+      </StepCTA>
+    </StepWrapper>
+  );
+}
+
 // ────────────────────────── Step: Escolha ──────────────────────────
 
 const mentorias = [
@@ -211,7 +269,7 @@ const mentorias = [
 function StepEscolha({ onNext }: { onNext: (id: string) => void }) {
   return (
     <StepWrapper wide>
-      <StepLabel>04 / 04</StepLabel>
+      <StepLabel>05 / 05</StepLabel>
       <StepTitle>Escolha seu foco</StepTitle>
       <StepSub>Cada mentoria possui um objetivo específico.</StepSub>
       <div className="w-full max-w-3xl grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -353,6 +411,7 @@ export default function OnboardingPage() {
   const [step, setStep] = useState(1);
   const [nome, setNome] = useState("");
   const [telefone, setTelefone] = useState("");
+  const [nivel, setNivel] = useState("");
 
   const handleNome = useCallback((n: string) => {
     setNome(n);
@@ -366,6 +425,11 @@ export default function OnboardingPage() {
 
   const handleMentalidade = useCallback(() => {
     setStep(4);
+  }, []);
+
+  const handleNivel = useCallback((n: string) => {
+    setNivel(n);
+    setStep(5);
   }, []);
 
   const handleMentoria = useCallback(
@@ -427,7 +491,8 @@ export default function OnboardingPage() {
           {step === 1 && <StepNome key="nome" onNext={handleNome} />}
           {step === 2 && <StepWhatsApp key="phone" onNext={handlePhone} />}
           {step === 3 && <StepMentalidade key="mental" onNext={handleMentalidade} />}
-          {step === 4 && <StepEscolha key="escolha" onNext={handleMentoria} />}
+          {step === 4 && <StepNivel key="nivel" onNext={handleNivel} />}
+          {step === 5 && <StepEscolha key="escolha" onNext={handleMentoria} />}
         </AnimatePresence>
       </main>
     </div>
