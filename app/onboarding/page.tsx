@@ -392,6 +392,36 @@ export default function OnboardingPage() {
       <ProgressBar current={step} total={TOTAL_STEPS} />
       <Navbar showEnter={false} />
 
+      {/* Botão voltar */}
+      {step > 1 && (
+        <motion.button
+          initial={{ opacity: 0, x: -8 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.3 }}
+          onClick={() => setStep((s) => s - 1)}
+          className="fixed top-16 left-6 z-40 flex items-center gap-2 px-3 py-2 rounded-lg text-xs font-medium"
+          style={{
+            color: "#9B9BA1",
+            background: "rgba(255,255,255,0.03)",
+            border: "1px solid rgba(255,255,255,0.07)",
+            transition: "all 0.2s ease",
+          }}
+          onMouseEnter={(e) => {
+            e.currentTarget.style.color = "#F4F4F5";
+            e.currentTarget.style.borderColor = "rgba(168,85,247,0.3)";
+          }}
+          onMouseLeave={(e) => {
+            e.currentTarget.style.color = "#9B9BA1";
+            e.currentTarget.style.borderColor = "rgba(255,255,255,0.07)";
+          }}
+        >
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+            <path d="M9 2L4 7L9 12" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+          </svg>
+          Voltar
+        </motion.button>
+      )}
+
       <main className="relative z-10 flex-1 flex flex-col items-center justify-center px-6 pt-20 pb-16 min-h-screen">
         <AnimatePresence mode="wait">
           {step === 1 && <StepNome key="nome" onNext={handleNome} />}
