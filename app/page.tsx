@@ -82,7 +82,7 @@ export default function LandingPage() {
                 Gabriel Maia
               </p>
               <p className="text-xs mt-0.5" style={{ color: "#9B9BA1" }}>
-                Validando ofertas na velocidade do som.
+                Múltiplas operações low ticket.
               </p>
             </div>
           </motion.div>
