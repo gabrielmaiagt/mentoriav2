@@ -52,7 +52,10 @@ export default function LandingPage() {
             className="mb-10 max-w-xl leading-relaxed"
             style={{ fontSize: "1.05rem", color: "#9B9BA1", fontWeight: 400 }}
           >
-            Mentoria individual com Gabriel Maia — Tráfego direto com Webapp, X1 automático ou TikTok Ads.
+            Mentoria individual com Gabriel Maia —{" "}
+            <span style={{ color: "#F4F4F5", fontWeight: 700 }}>
+              Tráfego direto com Webapp, X1 automático ou TikTok Ads.
+            </span>
           </motion.p>
 
           {/* Card do mentor */}
