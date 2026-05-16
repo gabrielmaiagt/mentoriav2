@@ -92,14 +92,13 @@ export default function AprovadoPage() {
             <div className="flex items-center gap-4 mb-6">
               {/* Avatar */}
               <div
-                className="w-14 h-14 rounded-full flex items-center justify-center font-black text-xl flex-shrink-0"
+                className="w-14 h-14 rounded-full flex-shrink-0 overflow-hidden"
                 style={{
-                  background: "linear-gradient(135deg, #8B5CF6, #A855F7)",
-                  boxShadow: "0 0 20px rgba(168,85,247,0.4)",
-                  color: "#fff",
+                  boxShadow: "0 0 20px rgba(168,85,247,0.35)",
+                  border: "2px solid rgba(168,85,247,0.3)",
                 }}
               >
-                G
+                <img src="https://i.ibb.co/JFRGZKPw/eu.png" alt="Gabriel Maia" className="w-full h-full object-cover" />
               </div>
               <div className="text-left">
                 <div className="font-bold text-base" style={{ color: "#F4F4F5" }}>Gabriel Maia</div>

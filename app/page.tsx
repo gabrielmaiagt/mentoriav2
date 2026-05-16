@@ -67,14 +67,14 @@ export default function LandingPage() {
           >
             {/* Avatar */}
             <div
-              className="w-12 h-12 rounded-full flex-shrink-0 flex items-center justify-center font-black text-lg"
-              style={{
-                background: "linear-gradient(135deg, #8B5CF6, #A855F7)",
-                boxShadow: "0 0 18px rgba(168,85,247,0.45)",
-                color: "#fff",
-              }}
+              className="w-12 h-12 rounded-full flex-shrink-0 overflow-hidden"
+              style={{ boxShadow: "0 0 18px rgba(168,85,247,0.35)", border: "2px solid rgba(168,85,247,0.3)" }}
             >
-              G
+              <img
+                src="https://i.ibb.co/JFRGZKPw/eu.png"
+                alt="Gabriel Maia"
+                className="w-full h-full object-cover"
+              />
             </div>
             {/* Info */}
             <div className="text-left">
