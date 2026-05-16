@@ -120,11 +120,6 @@ export default function LandingPage() {
         </motion.div>
       </main>
 
-      <div className="relative z-10 pb-8 flex justify-center">
-        <span className="text-xs" style={{ color: "rgba(155,155,161,0.3)", letterSpacing: "0.1em" }}>
-          ANTI-FLUXO © 2025 — ESTRUTURA PRIVADA
-        </span>
-      </div>
     </div>
   );
 }
