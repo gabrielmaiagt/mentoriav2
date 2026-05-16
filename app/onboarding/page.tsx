@@ -173,7 +173,7 @@ function StepMentalidade({ onNext }: { onNext: () => void }) {
         ))}
       </div>
       <StepCTA disabled={!allChecked} onClick={onNext}>
-        Continuar
+        {allChecked ? "Continuar" : "Marque todos para continuar"}
       </StepCTA>
     </StepWrapper>
   );
