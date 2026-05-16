@@ -111,17 +111,6 @@ export default function LandingPage() {
             variants={{ hidden: { opacity: 0 }, visible: { opacity: 1, transition: { duration: 0.8, delay: 0.4 } } }}
             className="mt-10 flex items-center gap-3"
           >
-            <div className="flex -space-x-2">
-              {["G", "M", "L", "R"].map((l, i) => (
-                <div
-                  key={i}
-                  className="w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold"
-                  style={{ background: `hsl(${260 + i * 20}, 70%, 35%)`, border: "2px solid #050507", color: "#F4F4F5" }}
-                >
-                  {l}
-                </div>
-              ))}
-            </div>
             <span className="text-xs" style={{ color: "#9B9BA1" }}>+20 mentorados escalados</span>
           </motion.div>
         </motion.div>
