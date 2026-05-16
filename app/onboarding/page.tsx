@@ -119,8 +119,8 @@ function StepWhatsApp({ onNext }: { onNext: (phone: string) => void }) {
 const checkItems = [
   "Entendo que resultados dependem de execução",
   "Não estou procurando fórmula mágica",
-  "Quero aprender operação real",
-  "Tenho interesse genuíno em evoluir no digital",
+  "Não existe garantia de resultado no digital: existe consistência ou ausência dela",
+  "Tenho caixa para a mentoria e para a operação",
 ];
 
 function StepMentalidade({ onNext }: { onNext: () => void }) {
