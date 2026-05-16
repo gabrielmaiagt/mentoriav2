@@ -2,10 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { useRouter } from "next/navigation";
-import { signOut, onAuthStateChanged } from "firebase/auth";
-import { auth } from "@/lib/firebase";
-import { getLeads, updateLeadStatus, Lead, LeadStatus } from "@/lib/firestore";
+import { getLeads, updateLeadStatus, deleteAllLeads, Lead, LeadStatus } from "@/lib/firestore";
 import BackgroundAtmosphere from "@/components/BackgroundAtmosphere";
 import { CircularGauge, AreaChart } from "@/components/DashboardWidget";
 
@@ -25,18 +22,11 @@ function formatDate(ts: { seconds: number } | undefined) {
 }
 
 export default function AdminDashboard() {
-  const router = useRouter();
   const [leads, setLeads] = useState<Lead[]>([]);
   const [loading, setLoading] = useState(true);
   const [filter, setFilter] = useState<LeadStatus | "Todos">("Todos");
   const [updatingId, setUpdatingId] = useState<string | null>(null);
-
-  useEffect(() => {
-    const unsub = onAuthStateChanged(auth, (user) => {
-      if (!user) router.push("/admin");
-    });
-    return () => unsub();
-  }, [router]);
+  const [clearing, setClearing] = useState(false);
 
   useEffect(() => {
     loadLeads();
@@ -62,10 +52,13 @@ export default function AdminDashboard() {
     setUpdatingId(null);
   };
 
-  const handleLogout = async () => {
-    await signOut(auth);
-    await fetch("/api/auth/session", { method: "DELETE" });
-    router.push("/admin");
+
+  const handleClear = async () => {
+    if (!confirm("Tem certeza? Isso vai apagar todos os leads permanentemente.")) return;
+    setClearing(true);
+    await deleteAllLeads();
+    setLeads([]);
+    setClearing(false);
   };
 
   const openWhatsApp = (telefone: string, nome: string) => {
@@ -91,6 +84,18 @@ export default function AdminDashboard() {
   }, {});
   const fechados = leads.filter((l) => l.status === "Fechado").length;
   const taxa = total > 0 ? Math.round((fechados / total) * 100) : 0;
+
+  const last7 = Array.from({ length: 7 }, (_, i) => {
+    const d = new Date();
+    d.setDate(d.getDate() - (6 - i));
+    d.setHours(0, 0, 0, 0);
+    return leads.filter((l) => {
+      if (!l.createdAt) return false;
+      const ld = new Date(l.createdAt.seconds * 1000);
+      ld.setHours(0, 0, 0, 0);
+      return ld.getTime() === d.getTime();
+    }).length;
+  });
 
   return (
     <div className="relative min-h-screen" style={{ backgroundColor: "#050507" }}>
@@ -127,11 +132,12 @@ export default function AdminDashboard() {
           </motion.button>
           <motion.button
             whileHover={{ scale: 1.02 }}
-            onClick={handleLogout}
+            onClick={handleClear}
+            disabled={clearing}
             className="text-xs px-3 py-1.5 rounded-lg"
-            style={{ color: "#EF4444", border: "1px solid rgba(239,68,68,0.2)", background: "rgba(239,68,68,0.05)" }}
+            style={{ color: clearing ? "rgba(239,68,68,0.4)" : "#EF4444", border: "1px solid rgba(239,68,68,0.2)", background: "rgba(239,68,68,0.05)", cursor: clearing ? "not-allowed" : "pointer" }}
           >
-            Sair
+            {clearing ? "Limpando..." : "Limpar dados"}
           </motion.button>
         </div>
       </div>
@@ -217,7 +223,7 @@ export default function AdminDashboard() {
           style={{ background: "#0D0D12", border: "1px solid rgba(255,255,255,0.07)", height: "170px" }}
         >
           <AreaChart
-            data={[2, 4, 6, 3, 8, 5, today + 1]}
+            data={last7}
             title="Leads por Dia"
             subtitle="ÚLTIMOS 7 DIAS"
           />

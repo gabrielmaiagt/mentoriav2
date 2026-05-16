@@ -3,6 +3,7 @@ import {
   collection,
   addDoc,
   updateDoc,
+  deleteDoc,
   doc,
   getDocs,
   query,
@@ -32,6 +33,11 @@ export async function saveLead(data: Omit<Lead, "id" | "createdAt">) {
 
 export async function updateLeadStatus(id: string, status: LeadStatus) {
   return updateDoc(doc(db, "leads", id), { status });
+}
+
+export async function deleteAllLeads(): Promise<void> {
+  const snap = await getDocs(collection(db, "leads"));
+  await Promise.all(snap.docs.map((d) => deleteDoc(doc(db, "leads", d.id))));
 }
 
 export async function getLeads(): Promise<Lead[]> {

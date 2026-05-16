@@ -1,11 +1,10 @@
 "use client";
 
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { useRouter } from "next/navigation";
 import BackgroundAtmosphere from "@/components/BackgroundAtmosphere";
 import Navbar from "@/components/Navbar";
-import ProgressBar from "@/components/ProgressBar";
 import { saveLead } from "@/lib/firestore";
 
 const TOTAL_STEPS = 5;
@@ -44,7 +43,7 @@ function StepNome({ onNext }: { onNext: (nome: string) => void }) {
         onKeyDown={(e) => e.key === "Enter" && nome.trim().length >= 2 && onNext(nome.trim())}
         placeholder="Seu nome"
         autoFocus
-        className="w-full max-w-md px-5 py-4 rounded-xl text-base outline-none"
+        className="w-full max-w-md px-5 py-3 rounded-xl text-base outline-none"
         style={{
           background: "#0D0D12",
           border: "1px solid rgba(255,255,255,0.08)",
@@ -84,7 +83,7 @@ function StepWhatsApp({ onNext }: { onNext: (phone: string) => void }) {
           onKeyDown={(e) => e.key === "Enter" && valid && onNext(formatted)}
           placeholder="(11) 99999-9999"
           autoFocus
-          className="w-full px-5 py-4 rounded-xl text-base outline-none pr-12"
+          className="w-full px-5 py-3 rounded-xl text-base outline-none pr-12"
           style={{
             background: "#0D0D12",
             border: "1px solid rgba(255,255,255,0.08)",
@@ -144,7 +143,7 @@ function StepMentalidade({ onNext }: { onNext: () => void }) {
             animate={{ opacity: 1, x: 0 }}
             transition={{ delay: 0.2 + i * 0.08 }}
             onClick={() => toggle(i)}
-            className="w-full flex items-center gap-4 px-5 py-4 rounded-xl text-left"
+            className="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-left"
             style={{
               background: checked[i] ? "rgba(139,92,246,0.1)" : "#0D0D12",
               border: `1px solid ${checked[i] ? "rgba(168,85,247,0.35)" : "rgba(255,255,255,0.07)"}`,
@@ -204,7 +203,7 @@ function StepNivel({ onNext }: { onNext: (nivel: string) => void }) {
             animate={{ opacity: 1, x: 0 }}
             transition={{ delay: 0.15 + i * 0.07 }}
             onClick={() => setSelected(n.id)}
-            className="w-full flex items-center gap-4 px-5 py-4 rounded-xl text-left"
+            className="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-left"
             style={{
               background: selected === n.id ? "rgba(139,92,246,0.1)" : "#0D0D12",
               border: `1px solid ${selected === n.id ? "rgba(168,85,247,0.35)" : "rgba(255,255,255,0.07)"}`,
@@ -250,28 +249,21 @@ const mentorias = [
   },
   {
     id: "tiktok",
-    title: "Mentoria TikTok Ads & Tráfego Direto",
-    description: "Oferta, criativo, validação e escala usando TikTok Ads.",
+    title: "Mentoria Tráfego Direto & TikTok Ads",
+    description: "Oferta, criativo, validação e escala usando Facebook Ads e TikTok Ads rodando tráfego direto.",
     price: "R$1.500",
     tags: ["Escala", "TikTok", "Validação"],
     locked: false,
   },
-  {
-    id: "scale",
-    title: "Scale & Backend",
-    description: "Recorrência, backend e operações escaláveis.",
-    price: "Em breve",
-    tags: ["Recorrência", "Backend", "Escala"],
-    locked: true,
-  },
+
 ];
 
 function StepEscolha({ onNext }: { onNext: (id: string) => void }) {
   return (
     <StepWrapper wide>
       <StepLabel>05 / 05</StepLabel>
-      <StepTitle>Escolha seu foco</StepTitle>
-      <StepSub>Cada mentoria possui um objetivo específico.</StepSub>
+      <StepTitle>Escolha sua mentoria:</StepTitle>
+      <StepSub>Todas as mentorias são diretamente com Gabriel Maia, individuais.</StepSub>
       <div className="w-full max-w-3xl grid grid-cols-1 md:grid-cols-3 gap-4">
         {mentorias.map((m, i) => (
           <motion.div
@@ -335,7 +327,7 @@ function StepWrapper({ children, wide }: { children: React.ReactNode; wide?: boo
       animate={{ opacity: 1, filter: "blur(0px)", y: 0 }}
       exit={{ opacity: 0, filter: "blur(8px)", y: -20 }}
       transition={{ duration: 0.5, ease: "easeInOut" }}
-      className={`flex flex-col items-center text-center gap-6 ${wide ? "max-w-3xl" : "max-w-md"} w-full`}
+      className={`flex flex-col items-center text-center gap-4 ${wide ? "max-w-3xl" : "max-w-md"} w-full`}
     >
       {children}
     </motion.div>
@@ -354,7 +346,7 @@ function StepTitle({ children }: { children: React.ReactNode }) {
   return (
     <h2
       className="font-black leading-tight"
-      style={{ fontSize: "clamp(2rem, 5vw, 3rem)", color: "#F4F4F5", letterSpacing: "-0.02em" }}
+      style={{ fontSize: "clamp(1.5rem, 4vw, 2.2rem)", color: "#F4F4F5", letterSpacing: "-0.02em" }}
     >
       {children}
     </h2>
@@ -376,7 +368,7 @@ function StepCTA({ children, disabled, onClick }: { children: React.ReactNode; d
       whileTap={!disabled ? { scale: 0.98 } : undefined}
       onClick={onClick}
       disabled={disabled}
-      className="px-10 py-4 rounded-xl font-bold text-base mt-2"
+      className="px-10 py-3 rounded-xl font-bold text-base mt-1"
       style={{
         background: disabled
           ? "rgba(139,92,246,0.15)"
@@ -402,27 +394,49 @@ export default function OnboardingPage() {
   const [telefone, setTelefone] = useState("");
   const [nivel, setNivel] = useState("");
 
+  useEffect(() => {
+    const raw = sessionStorage.getItem("onboarding_back");
+    if (raw) {
+      sessionStorage.removeItem("onboarding_back");
+      try {
+        const { nome: n, telefone: t, nivel: nv } = JSON.parse(raw);
+        setNome(n || "");
+        setTelefone(t || "");
+        setNivel(nv || "");
+        setStep(5);
+      } catch {}
+    }
+  }, []);
+
+  const scrollTop = () => window.scrollTo({ top: 0, behavior: "instant" as ScrollBehavior });
+
   const handleNome = useCallback((n: string) => {
     setNome(n);
     setStep(2);
+    scrollTop();
   }, []);
 
   const handlePhone = useCallback((p: string) => {
     setTelefone(p);
     setStep(3);
+    scrollTop();
   }, []);
 
   const handleMentalidade = useCallback(() => {
     setStep(4);
+    scrollTop();
   }, []);
 
   const handleNivel = useCallback((n: string) => {
     setNivel(n);
     setStep(5);
+    scrollTop();
   }, []);
 
   const handleMentoria = useCallback(
     async (id: string) => {
+      sessionStorage.setItem("onboarding_back", JSON.stringify({ nome, telefone, nivel }));
+      sessionStorage.setItem("lead_nome", nome);
       try {
         await saveLead({
           nome,
@@ -436,46 +450,32 @@ export default function OnboardingPage() {
       }
       router.push(`/mentoria/${id}`);
     },
-    [nome, telefone, router]
+    [nome, telefone, nivel, router]
   );
 
   return (
-    <div className="relative min-h-screen flex flex-col overflow-hidden" style={{ backgroundColor: "#050507" }}>
+    <div className="relative flex flex-col overflow-hidden" style={{ backgroundColor: "#050507", minHeight: "100svh" }}>
       <BackgroundAtmosphere />
-      <ProgressBar current={step} total={TOTAL_STEPS} />
       <Navbar showEnter={false} />
 
-      {/* Botão voltar */}
-      {step > 1 && (
-        <motion.button
-          initial={{ opacity: 0, x: -8 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.3 }}
-          onClick={() => setStep((s) => s - 1)}
-          className="fixed top-16 left-6 z-40 flex items-center gap-2 px-3 py-2 rounded-lg text-xs font-medium"
-          style={{
-            color: "#9B9BA1",
-            background: "rgba(255,255,255,0.03)",
-            border: "1px solid rgba(255,255,255,0.07)",
-            transition: "all 0.2s ease",
-          }}
-          onMouseEnter={(e) => {
-            e.currentTarget.style.color = "#F4F4F5";
-            e.currentTarget.style.borderColor = "rgba(168,85,247,0.3)";
-          }}
-          onMouseLeave={(e) => {
-            e.currentTarget.style.color = "#9B9BA1";
-            e.currentTarget.style.borderColor = "rgba(255,255,255,0.07)";
-          }}
-        >
-          <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-            <path d="M9 2L4 7L9 12" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-          </svg>
-          Voltar
-        </motion.button>
-      )}
-
-      <main className="relative z-10 flex-1 flex flex-col items-center justify-center px-6 pt-20 pb-16 min-h-screen">
+      <main className="relative z-10 flex-1 flex flex-col items-center justify-center px-5 pb-8">
+        {/* Botão voltar no fluxo */}
+        {step > 1 && (
+          <div className="w-full max-w-md mb-4">
+            <button
+              onClick={() => { setStep((s) => s - 1); scrollTop(); }}
+              className="flex items-center gap-2 px-3 py-2 rounded-lg text-xs font-medium"
+              style={{ color: "#9B9BA1", background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.07)", transition: "all 0.2s ease" }}
+              onMouseEnter={(e) => { e.currentTarget.style.color = "#F4F4F5"; e.currentTarget.style.borderColor = "rgba(168,85,247,0.3)"; }}
+              onMouseLeave={(e) => { e.currentTarget.style.color = "#9B9BA1"; e.currentTarget.style.borderColor = "rgba(255,255,255,0.07)"; }}
+            >
+              <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+                <path d="M9 2L4 7L9 12" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
+              Voltar
+            </button>
+          </div>
+        )}
         <AnimatePresence mode="wait">
           {step === 1 && <StepNome key="nome" onNext={handleNome} />}
           {step === 2 && <StepWhatsApp key="phone" onNext={handlePhone} />}

@@ -1,15 +1,27 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
+import { useRouter } from "next/navigation";
 import BackgroundAtmosphere from "@/components/BackgroundAtmosphere";
 import Navbar from "@/components/Navbar";
 
-const WA_NUMBER = "5511999999999";
-const WA_MSG = "Fala+Gabriel%2C+acabei+de+preencher+a+aplica%C3%A7%C3%A3o+da+mentoria+X1.";
+const WA_NUMBER = "5571991511702";
 
 export default function AprovadoPage() {
+  const router = useRouter();
+  const [primeiroNome, setPrimeiroNome] = useState("");
+
+  useEffect(() => {
+    const nome = sessionStorage.getItem("lead_nome") || "";
+    setPrimeiroNome(nome.trim().split(" ")[0]);
+  }, []);
+
   const handleWhatsApp = () => {
-    window.open(`https://wa.me/${WA_NUMBER}?text=${WA_MSG}`, "_blank");
+    const msg = primeiroNome
+      ? `Fala+Gabriel%2C+sou+${encodeURIComponent(primeiroNome)}+e+acabei+de+preencher+a+aplica%C3%A7%C3%A3o+da+mentoria.`
+      : "Fala+Gabriel%2C+acabei+de+preencher+a+aplica%C3%A7%C3%A3o+da+mentoria.";
+    window.open(`https://wa.me/${WA_NUMBER}?text=${msg}`, "_blank");
   };
 
   return (
@@ -17,7 +29,32 @@ export default function AprovadoPage() {
       <BackgroundAtmosphere />
       <Navbar showEnter={false} />
 
-      <main className="relative z-10 flex-1 flex flex-col items-center justify-center px-6 pt-20 pb-16 min-h-screen">
+      <main className="relative z-10 flex-1 flex flex-col items-center justify-center px-6 pt-2 pb-16 min-h-screen">
+        <div className="w-full max-w-lg mb-6">
+          <button
+            onClick={() => router.back()}
+            className="flex items-center gap-2 px-3 py-2 rounded-lg text-xs font-medium"
+            style={{
+              color: "#9B9BA1",
+              background: "rgba(255,255,255,0.03)",
+              border: "1px solid rgba(255,255,255,0.07)",
+              transition: "all 0.2s ease",
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.color = "#F4F4F5";
+              e.currentTarget.style.borderColor = "rgba(168,85,247,0.3)";
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.color = "#9B9BA1";
+              e.currentTarget.style.borderColor = "rgba(255,255,255,0.07)";
+            }}
+          >
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+              <path d="M9 2L4 7L9 12" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+            </svg>
+            Voltar
+          </button>
+        </div>
         <motion.div
           initial={{ opacity: 0, y: 30, filter: "blur(12px)" }}
           animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
@@ -64,7 +101,7 @@ export default function AprovadoPage() {
             className="font-black mb-4"
             style={{ fontSize: "clamp(2rem, 5vw, 3.2rem)", color: "#F4F4F5", letterSpacing: "-0.02em" }}
           >
-            Sua aplicação foi aprovada.
+            {primeiroNome ? `${primeiroNome}, sua aplicação foi aprovada.` : "Sua aplicação foi aprovada."}
           </motion.h1>
 
           <motion.p

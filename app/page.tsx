@@ -8,12 +8,12 @@ import PageGlowBorder from "@/components/PageGlowBorder";
 
 export default function LandingPage() {
   return (
-    <div className="relative min-h-screen flex flex-col overflow-hidden" style={{ backgroundColor: "#050507" }}>
+    <div className="relative flex flex-col overflow-hidden" style={{ backgroundColor: "#050507", minHeight: "100svh" }}>
       <BackgroundAtmosphere />
       <PageGlowBorder />
       <Navbar showEnter={false} />
 
-      <main className="relative z-10 flex-1 flex flex-col items-center justify-center px-6 pt-20 pb-16 min-h-screen">
+      <main className="relative z-10 flex-1 flex flex-col items-center justify-center px-6 pt-2 pb-8">
         <motion.div
           className="flex flex-col items-center text-center max-w-3xl mx-auto"
           initial="hidden"
@@ -24,7 +24,7 @@ export default function LandingPage() {
             variants={{ hidden: { opacity: 0, y: 16 }, visible: { opacity: 1, y: 0, transition: { duration: 0.7 } } }}
           >
             <span
-              className="inline-flex items-center gap-2 text-xs font-semibold px-4 py-2 rounded-full mb-10"
+              className="inline-flex items-center gap-2 text-xs font-semibold px-4 py-2 rounded-full mb-5"
               style={{
                 color: "#A855F7",
                 border: "1px solid rgba(168,85,247,0.25)",
@@ -40,7 +40,7 @@ export default function LandingPage() {
           <motion.h1
             variants={{ hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0, transition: { duration: 0.8 } } }}
             className="font-black leading-[1.05] mb-6"
-            style={{ fontSize: "clamp(2.6rem, 6vw, 4.5rem)", color: "#F4F4F5", letterSpacing: "-0.02em" }}
+            style={{ fontSize: "clamp(2rem, 5vw, 3.5rem)", color: "#F4F4F5", letterSpacing: "-0.02em" }}
           >
             Aprenda a estrutura que{" "}
             <span style={{ color: "#A855F7", textShadow: "0 0 30px rgba(168,85,247,0.35)" }}>
@@ -51,7 +51,7 @@ export default function LandingPage() {
 
           <motion.p
             variants={{ hidden: { opacity: 0, y: 16 }, visible: { opacity: 1, y: 0, transition: { duration: 0.7 } } }}
-            className="mb-10 max-w-xl leading-relaxed"
+            className="mb-5 max-w-xl leading-relaxed"
             style={{ fontSize: "1.05rem", color: "#9B9BA1", fontWeight: 400 }}
           >
             Mentoria individual com Gabriel Maia —
@@ -64,7 +64,7 @@ export default function LandingPage() {
           {/* Card do mentor */}
           <motion.div
             variants={{ hidden: { opacity: 0, y: 16 }, visible: { opacity: 1, y: 0, transition: { duration: 0.7 } } }}
-            className="flex items-center gap-4 px-5 py-4 rounded-2xl mb-8"
+            className="flex items-center gap-4 px-5 py-3 rounded-2xl mb-5"
             style={{
               background: "#0D0D12",
               border: "1px solid rgba(255,255,255,0.07)",
@@ -115,7 +115,7 @@ export default function LandingPage() {
 
           <motion.div
             variants={{ hidden: { opacity: 0 }, visible: { opacity: 1, transition: { duration: 0.8, delay: 0.4 } } }}
-            className="mt-10 flex items-center gap-3"
+            className="mt-5 flex items-center gap-3"
           >
             <span className="text-xs" style={{ color: "#9B9BA1" }}>+20 mentorados escalados</span>
           </motion.div>
