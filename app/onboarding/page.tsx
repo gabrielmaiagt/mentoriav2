@@ -134,7 +134,7 @@ function StepMentalidade({ onNext }: { onNext: () => void }) {
   return (
     <StepWrapper>
       <StepLabel>03 / 04</StepLabel>
-      <StepTitle>Antes de avançar</StepTitle>
+      <StepTitle>Confirme seu perfil</StepTitle>
       <StepSub>Confirme os pontos abaixo.</StepSub>
       <div className="w-full max-w-md space-y-3">
         {checkItems.map((item, i) => (
