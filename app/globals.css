@@ -1,26 +1,77 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --bg-primary: #050507;
+  --bg-card: #0D0D12;
+  --bg-card-hover: #12121A;
+  --text-primary: #F4F4F5;
+  --text-secondary: #9B9BA1;
+  --purple-main: #8B5CF6;
+  --purple-glow: #A855F7;
+  --border: rgba(255,255,255,0.06);
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+* {
+  box-sizing: border-box;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html, body {
+  background-color: #050507;
+  color: #F4F4F5;
+  margin: 0;
+  padding: 0;
+  scroll-behavior: smooth;
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+::selection {
+  background: rgba(139, 92, 246, 0.3);
+  color: #F4F4F5;
+}
+
+::-webkit-scrollbar {
+  width: 4px;
+}
+
+::-webkit-scrollbar-track {
+  background: #050507;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(139, 92, 246, 0.3);
+  border-radius: 2px;
+}
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus {
+  -webkit-box-shadow: 0 0 0px 1000px #0D0D12 inset;
+  -webkit-text-fill-color: #F4F4F5;
+  caret-color: #F4F4F5;
+}
+
+@keyframes noise {
+  0%   { transform: translate(0, 0); }
+  10%  { transform: translate(-2%, -2%); }
+  20%  { transform: translate(2%, 2%); }
+  30%  { transform: translate(-1%, 1%); }
+  40%  { transform: translate(1%, -1%); }
+  50%  { transform: translate(-2%, 2%); }
+  60%  { transform: translate(2%, -2%); }
+  70%  { transform: translate(-1%, -1%); }
+  80%  { transform: translate(1%, 1%); }
+  90%  { transform: translate(-2%, 1%); }
+  100% { transform: translate(0, 0); }
+}
+
+.noise-overlay {
+  animation: noise 8s steps(1) infinite;
+}
+
+@keyframes pulse-glow {
+  0%, 100% { opacity: 0.4; }
+  50% { opacity: 0.7; }
+}
+
+.glow-pulse {
+  animation: pulse-glow 4s ease-in-out infinite;
 }
