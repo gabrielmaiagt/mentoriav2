@@ -40,11 +40,11 @@ export default function LandingPage() {
             className="font-black leading-[1.05] mb-6"
             style={{ fontSize: "clamp(2.6rem, 6vw, 4.5rem)", color: "#F4F4F5", letterSpacing: "-0.02em" }}
           >
-            Aprenda a validar, vender e{" "}
+            Aprenda a estrutura que{" "}
             <span style={{ color: "#A855F7", textShadow: "0 0 30px rgba(168,85,247,0.35)" }}>
-              escalar
+              escala dezenas de ofertas
             </span>{" "}
-            rodando X1, tráfego direto ou TikTok Ads.
+            low ticket de tráfego direto.
           </motion.h1>
 
           <motion.p
@@ -52,7 +52,7 @@ export default function LandingPage() {
             className="mb-10 max-w-xl leading-relaxed"
             style={{ fontSize: "1.05rem", color: "#9B9BA1", fontWeight: 400 }}
           >
-            Oferta, criativo, validação, escala e conversão aplicados na prática.
+            Mentoria individual com Gabriel Maia — Tráfego direto com Webapp, X1 automático ou TikTok Ads.
           </motion.p>
 
           {/* Card do mentor */}
