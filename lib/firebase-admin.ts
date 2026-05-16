@@ -2,21 +2,22 @@ import { initializeApp, getApps, cert, App } from "firebase-admin/app";
 import { getAuth } from "firebase-admin/auth";
 import { getFirestore } from "firebase-admin/firestore";
 
-let adminApp: App;
-
 function getAdminApp(): App {
   if (getApps().length > 0) return getApps()[0];
 
-  adminApp = initializeApp({
+  const privateKey = process.env.FIREBASE_ADMIN_PRIVATE_KEY?.replace(/\\n/g, "\n");
+
+  if (!privateKey) {
+    throw new Error("FIREBASE_ADMIN_PRIVATE_KEY não configurada.");
+  }
+
+  return initializeApp({
     credential: cert({
       projectId: process.env.FIREBASE_ADMIN_PROJECT_ID,
       clientEmail: process.env.FIREBASE_ADMIN_CLIENT_EMAIL,
-      // \n literals in env vars must be converted back to real newlines
-      privateKey: process.env.FIREBASE_ADMIN_PRIVATE_KEY?.replace(/\\n/g, "\n"),
+      privateKey,
     }),
   });
-
-  return adminApp;
 }
 
 export const adminAuth = () => getAuth(getAdminApp());

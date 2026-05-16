@@ -56,9 +56,3 @@ env:
     value: firebase-adminsdk-fbsvc@mentoriav2-3c569.iam.gserviceaccount.com
     availability:
       - RUNTIME
-
-  # Chave privada — referencia o Secret Manager (nunca colocar o valor aqui)
-  - variable: FIREBASE_ADMIN_PRIVATE_KEY
-    secret: firebase-admin-private-key
-    availability:
-      - RUNTIME

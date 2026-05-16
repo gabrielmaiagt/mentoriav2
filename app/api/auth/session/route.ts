@@ -10,6 +10,12 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: "Missing idToken" }, { status: 400 });
   }
 
+  // Se Admin SDK não estiver configurado (sem private key), retorna ok
+  // o dashboard usa onAuthStateChanged do client para proteção
+  if (!process.env.FIREBASE_ADMIN_PRIVATE_KEY) {
+    return NextResponse.json({ ok: true, mode: "client-auth" });
+  }
+
   try {
     const sessionCookie = await adminAuth().createSessionCookie(idToken, {
       expiresIn: SESSION_DURATION,

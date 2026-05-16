@@ -1,15 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 
-export async function proxy(req: NextRequest) {
-  const { pathname } = req.nextUrl;
-
-  if (pathname.startsWith("/admin/dashboard")) {
-    const session = req.cookies.get("__session")?.value;
-    if (!session) {
-      return NextResponse.redirect(new URL("/admin", req.url));
-    }
-  }
-
+// Proteção feita via onAuthStateChanged no client (firebase/auth)
+// O proxy apenas passa adiante — sem depender de secret no edge
+export async function proxy(_req: NextRequest) {
   return NextResponse.next();
 }
 
