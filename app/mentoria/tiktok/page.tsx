@@ -4,61 +4,55 @@ import { motion } from "framer-motion";
 import Link from "next/link";
 import BackgroundAtmosphere from "@/components/BackgroundAtmosphere";
 import Navbar from "@/components/Navbar";
+import { CircularGauge, AreaChart, ProgressRow } from "@/components/DashboardWidget";
 
 function FakeTikTokDash() {
   return (
-    <div
-      className="w-full h-full rounded-2xl overflow-hidden p-5 relative"
-      style={{ background: "#0D0D12", border: "1px solid rgba(255,255,255,0.06)" }}
-    >
-      <div className="flex items-center justify-between mb-4">
-        <span className="text-xs font-mono" style={{ color: "#9B9BA1" }}>TikTok Ads · Painel DR</span>
-        <span className="text-xs px-2 py-0.5 rounded" style={{ background: "rgba(139,92,246,0.12)", color: "#A855F7" }}>ESCALA</span>
-      </div>
-      <div className="grid grid-cols-2 gap-3 mb-4">
-        {[
-          { label: "Gasto Hoje", value: "R$480" },
-          { label: "ROAS", value: "5.2x" },
-          { label: "CPM", value: "R$12,40" },
-          { label: "CTR", value: "4.1%" },
-        ].map((m) => (
-          <div key={m.label} className="p-3 rounded-lg" style={{ background: "#12121A" }}>
-            <div className="text-xs mb-1" style={{ color: "#9B9BA1" }}>{m.label}</div>
-            <div className="font-bold text-base" style={{ color: "#F4F4F5" }}>{m.value}</div>
-          </div>
-        ))}
-      </div>
-      <div className="rounded-lg p-3 mb-4" style={{ background: "#12121A" }}>
-        <div className="text-xs mb-3" style={{ color: "#9B9BA1" }}>Performance de criativos</div>
-        <div className="space-y-2">
-          {[
-            { label: "Creative_A", pct: 88 },
-            { label: "Creative_B", pct: 62 },
-            { label: "Creative_C", pct: 45 },
-          ].map((c) => (
-            <div key={c.label}>
-              <div className="flex justify-between text-xs mb-1" style={{ color: "#9B9BA1" }}>
-                <span>{c.label}</span>
-                <span>{c.pct}%</span>
-              </div>
-              <div className="h-1.5 rounded-full" style={{ background: "rgba(255,255,255,0.06)" }}>
-                <div
-                  className="h-full rounded-full"
-                  style={{ width: `${c.pct}%`, background: "linear-gradient(90deg, #8B5CF6, #A855F7)" }}
-                />
-              </div>
+    <div className="w-full h-full flex flex-col gap-3">
+      {/* Row 1 */}
+      <div className="grid grid-cols-2 gap-3 flex-shrink-0">
+        {/* Gasto */}
+        <div className="p-4 rounded-2xl" style={{ background: "#0D0D12", border: "1px solid rgba(255,255,255,0.06)" }}>
+          <div className="flex items-center gap-2 mb-3">
+            <div className="w-8 h-8 rounded-lg flex items-center justify-center" style={{ background: "rgba(139,92,246,0.15)" }}>
+              <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M7 1.5v11M3.5 5l3.5-3.5L10.5 5" stroke="#8B5CF6" strokeWidth="1.4" strokeLinecap="round"/></svg>
             </div>
-          ))}
+            <span className="text-xs font-semibold" style={{ color: "#9B9BA1" }}>Investido Hoje</span>
+          </div>
+          <div className="font-black text-xl mb-2" style={{ color: "#F4F4F5" }}>R$ 480,00</div>
+          <div className="h-1 rounded-full mb-1.5" style={{ background: "rgba(255,255,255,0.06)" }}>
+            <div className="h-full rounded-full" style={{ width: "60%", background: "linear-gradient(90deg,#8B5CF6,#A855F7)" }} />
+          </div>
+          <span className="text-xs" style={{ color: "#9B9BA1" }}>ROAS: 5.2x</span>
+        </div>
+
+        {/* CTR gauge */}
+        <div className="p-4 rounded-2xl flex flex-col" style={{ background: "#0D0D12", border: "1px solid rgba(255,255,255,0.06)" }}>
+          <div className="flex items-center gap-2 mb-2">
+            <div className="w-8 h-8 rounded-lg flex items-center justify-center" style={{ background: "rgba(139,92,246,0.15)" }}>
+              <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 10l3-3 2 2 5-6" stroke="#8B5CF6" strokeWidth="1.4" strokeLinecap="round"/></svg>
+            </div>
+            <span className="text-xs font-semibold" style={{ color: "#9B9BA1" }}>Taxa de Clique</span>
+          </div>
+          <div className="flex-1 flex items-center justify-center -mt-1">
+            <CircularGauge value={41.0} label="CTR" sub="CPM médio R$12,40" />
+          </div>
         </div>
       </div>
-      <div className="flex items-end gap-1 h-14">
-        {[35, 55, 45, 75, 65, 85, 70, 90, 80, 100].map((h, i) => (
-          <div
-            key={i}
-            className="flex-1 rounded-t"
-            style={{ height: `${h}%`, background: i === 9 ? "linear-gradient(180deg,#8B5CF6,#A855F7)" : "rgba(139,92,246,0.18)" }}
-          />
-        ))}
+
+      {/* Criativos */}
+      <div className="p-4 rounded-2xl flex-shrink-0" style={{ background: "#0D0D12", border: "1px solid rgba(255,255,255,0.06)" }}>
+        <div className="text-xs font-semibold mb-3" style={{ color: "#9B9BA1" }}>Performance de criativos</div>
+        <div className="space-y-3">
+          <ProgressRow label="Creative_A" value={88} total={100} suffix="%" />
+          <ProgressRow label="Creative_B" value={62} total={100} suffix="%" />
+          <ProgressRow label="Creative_C" value={45} total={100} suffix="%" />
+        </div>
+      </div>
+
+      {/* Area chart */}
+      <div className="flex-1 p-4 rounded-2xl min-h-[120px]" style={{ background: "#0D0D12", border: "1px solid rgba(255,255,255,0.06)" }}>
+        <AreaChart data={[15, 22, 30, 45, 58, 65, 48]} title="Seu Desempenho" subtitle="ÚLTIMOS 7 DIAS" />
       </div>
     </div>
   );

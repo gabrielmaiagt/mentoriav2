@@ -4,71 +4,75 @@ import { motion } from "framer-motion";
 import Link from "next/link";
 import BackgroundAtmosphere from "@/components/BackgroundAtmosphere";
 import Navbar from "@/components/Navbar";
+import { CircularGauge, AreaChart, MiniBarChart, ProgressRow } from "@/components/DashboardWidget";
 
 function FakeDashboard() {
   return (
-    <div
-      className="w-full h-full rounded-2xl overflow-hidden p-5 relative"
-      style={{ background: "#0D0D12", border: "1px solid rgba(255,255,255,0.06)" }}
-    >
-      <div className="flex items-center justify-between mb-4">
-        <span className="text-xs font-mono" style={{ color: "#9B9BA1" }}>Painel · Operação X1</span>
-        <span className="text-xs px-2 py-0.5 rounded" style={{ background: "rgba(139,92,246,0.12)", color: "#A855F7" }}>AO VIVO</span>
-      </div>
-
-      {/* Metrics row */}
-      <div className="grid grid-cols-2 gap-3 mb-4">
-        {[
-          { label: "Conversas Ativas", value: "14" },
-          { label: "Taxa de Conv.", value: "7.2%" },
-          { label: "Faturamento", value: "R$8.4k" },
-          { label: "ROAS Médio", value: "4.1x" },
-        ].map((m) => (
-          <div key={m.label} className="p-3 rounded-lg" style={{ background: "#12121A" }}>
-            <div className="text-xs mb-1" style={{ color: "#9B9BA1" }}>{m.label}</div>
-            <div className="font-bold text-base" style={{ color: "#F4F4F5" }}>{m.value}</div>
+    <div className="w-full h-full flex flex-col gap-3">
+      {/* Row 1 */}
+      <div className="grid grid-cols-2 gap-3 flex-shrink-0">
+        {/* Vendas */}
+        <div className="p-4 rounded-2xl" style={{ background: "#0D0D12", border: "1px solid rgba(255,255,255,0.06)" }}>
+          <div className="flex items-center gap-2 mb-3">
+            <div className="w-8 h-8 rounded-lg flex items-center justify-center" style={{ background: "rgba(139,92,246,0.15)" }}>
+              <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M7 1.5v11M3.5 5l3.5-3.5L10.5 5" stroke="#8B5CF6" strokeWidth="1.4" strokeLinecap="round"/></svg>
+            </div>
+            <span className="text-xs font-semibold" style={{ color: "#9B9BA1" }}>Vendas Aprovadas</span>
           </div>
-        ))}
-      </div>
+          <div className="font-black text-xl mb-2" style={{ color: "#F4F4F5" }}>R$ 8.420,00</div>
+          <div className="h-1 rounded-full mb-1.5" style={{ background: "rgba(255,255,255,0.06)" }}>
+            <div className="h-full rounded-full" style={{ width: "42%", background: "linear-gradient(90deg,#8B5CF6,#A855F7)" }} />
+          </div>
+          <span className="text-xs" style={{ color: "#9B9BA1" }}>42% Aprovação</span>
+        </div>
 
-      {/* Fake chart */}
-      <div className="rounded-lg p-3 mb-4" style={{ background: "#12121A" }}>
-        <div className="text-xs mb-3" style={{ color: "#9B9BA1" }}>Conversões por dia</div>
-        <div className="flex items-end gap-1 h-16">
-          {[30, 55, 40, 70, 60, 85, 75, 90, 80, 95].map((h, i) => (
-            <div
-              key={i}
-              className="flex-1 rounded-t"
-              style={{
-                height: `${h}%`,
-                background: i === 9 ? "linear-gradient(180deg, #8B5CF6, #A855F7)" : "rgba(139,92,246,0.2)",
-              }}
-            />
-          ))}
+        {/* Conversão gauge */}
+        <div className="p-4 rounded-2xl flex flex-col" style={{ background: "#0D0D12", border: "1px solid rgba(255,255,255,0.06)" }}>
+          <div className="flex items-center gap-2 mb-2">
+            <div className="w-8 h-8 rounded-lg flex items-center justify-center" style={{ background: "rgba(139,92,246,0.15)" }}>
+              <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 10l3-3 2 2 5-6" stroke="#8B5CF6" strokeWidth="1.4" strokeLinecap="round"/></svg>
+            </div>
+            <span className="text-xs font-semibold" style={{ color: "#9B9BA1" }}>Taxa de Conversão</span>
+          </div>
+          <div className="flex-1 flex items-center justify-center -mt-1">
+            <CircularGauge value={33.95} label="Conv." sub="110 pagos de 324" />
+          </div>
         </div>
       </div>
 
-      {/* Fake chat */}
-      <div className="space-y-2">
-        <div className="text-xs mb-2" style={{ color: "#9B9BA1" }}>Conversas recentes</div>
-        {[
-          { name: "Lucas M.", msg: "Quanto é o acesso?", time: "2min" },
-          { name: "Marina S.", msg: "Quero me inscrever", time: "5min" },
-        ].map((c) => (
-          <div key={c.name} className="flex items-center gap-3 p-2.5 rounded-lg" style={{ background: "#12121A" }}>
-            <div
-              className="w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold flex-shrink-0"
-              style={{ background: "rgba(139,92,246,0.25)", color: "#A855F7" }}
-            >
-              {c.name[0]}
+      {/* Row 2 */}
+      <div className="grid grid-cols-2 gap-3 flex-shrink-0">
+        {/* Total Starts */}
+        <div className="p-4 rounded-2xl" style={{ background: "#0D0D12", border: "1px solid rgba(255,255,255,0.06)" }}>
+          <div className="flex items-center gap-2 mb-2">
+            <div className="w-8 h-8 rounded-lg flex items-center justify-center" style={{ background: "rgba(139,92,246,0.15)" }}>
+              <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M7 2l1.2 3.6H12l-3 2.2 1.1 3.6L7 9.2l-3.1 2.2 1.1-3.6-3-2.2h3.8L7 2z" stroke="#8B5CF6" strokeWidth="1.2" fill="none"/></svg>
             </div>
-            <div className="flex-1 min-w-0">
-              <div className="text-xs font-medium" style={{ color: "#F4F4F5" }}>{c.name}</div>
-              <div className="text-xs truncate" style={{ color: "#9B9BA1" }}>{c.msg}</div>
-            </div>
-            <span className="text-xs flex-shrink-0" style={{ color: "rgba(155,155,161,0.5)" }}>{c.time}</span>
+            <span className="text-xs font-semibold" style={{ color: "#9B9BA1" }}>Total Starts</span>
           </div>
-        ))}
+          <div className="font-black text-2xl" style={{ color: "#F4F4F5" }}>3.6k</div>
+          <p className="text-xs mt-0.5" style={{ color: "#9B9BA1" }}>leads iniciaram conversa</p>
+          <p className="text-xs" style={{ color: "#9B9BA1" }}>33 starts por venda</p>
+          <MiniBarChart data={[30, 55, 80]} />
+        </div>
+
+        {/* Ticket Médio */}
+        <div className="p-4 rounded-2xl" style={{ background: "#0D0D12", border: "1px solid rgba(255,255,255,0.06)" }}>
+          <div className="flex items-center gap-2 mb-2">
+            <div className="w-8 h-8 rounded-lg flex items-center justify-center" style={{ background: "rgba(139,92,246,0.15)" }}>
+              <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><rect x="2" y="4.5" width="10" height="6.5" rx="1.2" stroke="#8B5CF6" strokeWidth="1.2"/><path d="M4.5 4.5V3.5a2.5 2.5 0 015 0v1" stroke="#8B5CF6" strokeWidth="1.2"/></svg>
+            </div>
+            <span className="text-xs font-semibold" style={{ color: "#9B9BA1" }}>Ticket Médio</span>
+          </div>
+          <div className="font-black text-2xl mb-1" style={{ color: "#F4F4F5" }}>R$ 15,00</div>
+          <p className="text-xs mb-3" style={{ color: "#9B9BA1" }}>Vendas: R$ 8.420,00</p>
+          <ProgressRow label="PIX Pagos" value={110} total={442} />
+        </div>
+      </div>
+
+      {/* Area chart */}
+      <div className="flex-1 p-4 rounded-2xl min-h-[130px]" style={{ background: "#0D0D12", border: "1px solid rgba(255,255,255,0.06)" }}>
+        <AreaChart data={[12, 18, 25, 38, 52, 60, 42]} title="Seu Desempenho" subtitle="ÚLTIMOS 7 DIAS" />
       </div>
     </div>
   );

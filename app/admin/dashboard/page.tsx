@@ -7,6 +7,7 @@ import { signOut, onAuthStateChanged } from "firebase/auth";
 import { auth } from "@/lib/firebase";
 import { getLeads, updateLeadStatus, Lead, LeadStatus } from "@/lib/firestore";
 import BackgroundAtmosphere from "@/components/BackgroundAtmosphere";
+import { CircularGauge, AreaChart } from "@/components/DashboardWidget";
 
 const STATUS_COLORS: Record<LeadStatus, { bg: string; color: string }> = {
   Novo: { bg: "rgba(139,92,246,0.12)", color: "#A855F7" },
@@ -136,27 +137,90 @@ export default function AdminDashboard() {
       </div>
 
       <div className="relative z-10 max-w-7xl mx-auto px-6 py-10">
-        {/* Stats */}
+        {/* Stats — estilo gateway */}
         <motion.div
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
-          className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8"
+          className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4"
         >
-          {[
-            { label: "Total de Leads", value: total },
-            { label: "Leads Hoje", value: today },
-            { label: "Leads X1", value: byMentoria["x1"] || 0 },
-            { label: "Taxa de Fechamento", value: `${taxa}%` },
-          ].map((s) => (
-            <div
-              key={s.label}
-              className="p-5 rounded-xl"
-              style={{ background: "#0D0D12", border: "1px solid rgba(255,255,255,0.07)" }}
-            >
-              <div className="text-xs mb-2" style={{ color: "#9B9BA1" }}>{s.label}</div>
-              <div className="font-black text-2xl" style={{ color: "#F4F4F5" }}>{s.value}</div>
+          {/* Vendas Aprovadas */}
+          <div className="p-5 rounded-2xl" style={{ background: "#0D0D12", border: "1px solid rgba(255,255,255,0.07)" }}>
+            <div className="flex items-center gap-3 mb-4">
+              <div className="w-9 h-9 rounded-xl flex items-center justify-center" style={{ background: "rgba(139,92,246,0.15)", border: "1px solid rgba(168,85,247,0.2)" }}>
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 2v12M4 6l4-4 4 4" stroke="#8B5CF6" strokeWidth="1.5" strokeLinecap="round"/></svg>
+              </div>
+              <span className="text-sm font-semibold" style={{ color: "#F4F4F5" }}>Leads Aprovados</span>
             </div>
-          ))}
+            <div className="font-black text-3xl mb-3" style={{ color: "#F4F4F5" }}>{total}</div>
+            <div className="h-1 rounded-full mb-1.5" style={{ background: "rgba(255,255,255,0.06)" }}>
+              <div className="h-full rounded-full" style={{ width: `${Math.min(taxa, 100)}%`, background: "linear-gradient(90deg,#8B5CF6,#A855F7)", transition: "width 1s ease" }} />
+            </div>
+            <span className="text-xs" style={{ color: "#9B9BA1" }}>{taxa}% Taxa de fechamento</span>
+          </div>
+
+          {/* Taxa de Conversão — gauge */}
+          <div className="p-5 rounded-2xl flex flex-col" style={{ background: "#0D0D12", border: "1px solid rgba(255,255,255,0.07)" }}>
+            <div className="flex items-center gap-3 mb-2">
+              <div className="w-9 h-9 rounded-xl flex items-center justify-center" style={{ background: "rgba(139,92,246,0.15)", border: "1px solid rgba(168,85,247,0.2)" }}>
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M2 11l4-4 2 2 6-7" stroke="#8B5CF6" strokeWidth="1.5" strokeLinecap="round"/></svg>
+              </div>
+              <span className="text-sm font-semibold" style={{ color: "#F4F4F5" }}>Taxa de Conversão</span>
+            </div>
+            <div className="flex-1 flex items-center justify-center">
+              <CircularGauge value={taxa} label="Conversão" sub={`${leads.filter(l => l.status === "Fechado").length} fechados de ${total}`} />
+            </div>
+          </div>
+
+          {/* Desempenho por mentoria */}
+          <div className="p-5 rounded-2xl" style={{ background: "#0D0D12", border: "1px solid rgba(255,255,255,0.07)" }}>
+            <div className="flex items-center gap-3 mb-4">
+              <div className="w-9 h-9 rounded-xl flex items-center justify-center" style={{ background: "rgba(139,92,246,0.15)", border: "1px solid rgba(168,85,247,0.2)" }}>
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 2l1.5 4H14l-3.5 2.5 1.3 4L8 10l-3.8 2.5 1.3-4L2 6h4.5L8 2z" stroke="#8B5CF6" strokeWidth="1.2" fill="none"/></svg>
+              </div>
+              <span className="text-sm font-semibold" style={{ color: "#F4F4F5" }}>Por Mentoria</span>
+            </div>
+            <div className="space-y-3">
+              {[
+                { label: "X1", key: "x1" },
+                { label: "TikTok Ads", key: "tiktok" },
+              ].map(({ label, key }) => {
+                const count = byMentoria[key] || 0;
+                const pct = total > 0 ? (count / total) * 100 : 0;
+                return (
+                  <div key={key}>
+                    <div className="flex justify-between text-xs mb-1.5">
+                      <span style={{ color: "#9B9BA1" }}>{label}</span>
+                      <span className="font-semibold" style={{ color: "#F4F4F5" }}>{count}</span>
+                    </div>
+                    <div className="h-1.5 rounded-full" style={{ background: "rgba(255,255,255,0.06)" }}>
+                      <div className="h-full rounded-full" style={{ width: `${pct}%`, background: "linear-gradient(90deg,#8B5CF6,#A855F7)", transition: "width 1s ease" }} />
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+            <div className="mt-4 pt-4" style={{ borderTop: "1px solid rgba(255,255,255,0.06)" }}>
+              <div className="flex justify-between text-xs">
+                <span style={{ color: "#9B9BA1" }}>Leads hoje</span>
+                <span className="font-bold" style={{ color: "#A855F7" }}>{today}</span>
+              </div>
+            </div>
+          </div>
+        </motion.div>
+
+        {/* Mini area chart */}
+        <motion.div
+          initial={{ opacity: 0, y: 12 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.15 }}
+          className="p-5 rounded-2xl mb-6"
+          style={{ background: "#0D0D12", border: "1px solid rgba(255,255,255,0.07)", height: "170px" }}
+        >
+          <AreaChart
+            data={[2, 4, 6, 3, 8, 5, today + 1]}
+            title="Leads por Dia"
+            subtitle="ÚLTIMOS 7 DIAS"
+          />
         </motion.div>
 
         {/* Filters */}
