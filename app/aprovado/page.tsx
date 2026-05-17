@@ -11,16 +11,24 @@ const WA_NUMBER = "5571991511702";
 export default function AprovadoPage() {
   const router = useRouter();
   const [primeiroNome, setPrimeiroNome] = useState("");
+  const [mentoria, setMentoria] = useState("");
 
   useEffect(() => {
     const nome = sessionStorage.getItem("lead_nome") || "";
+    const m = sessionStorage.getItem("lead_mentoria") || "";
     setPrimeiroNome(nome.trim().split(" ")[0]);
+    setMentoria(m);
   }, []);
 
+  const mentoriaLabel = mentoria === "x1"
+    ? "Mentoria X1"
+    : mentoria === "tiktok"
+    ? "Mentoria de Tráfego Direto"
+    : "mentoria";
+
   const handleWhatsApp = () => {
-    const msg = primeiroNome
-      ? `Fala+Gabriel%2C+sou+${encodeURIComponent(primeiroNome)}+e+acabei+de+preencher+a+aplica%C3%A7%C3%A3o+da+mentoria.`
-      : "Fala+Gabriel%2C+acabei+de+preencher+a+aplica%C3%A7%C3%A3o+da+mentoria.";
+    const nomePart = primeiroNome ? `sou+${encodeURIComponent(primeiroNome)}+e+` : "";
+    const msg = `Fala+Gabriel%2C+${nomePart}acabei+de+preencher+a+aplica%C3%A7%C3%A3o+da+${encodeURIComponent(mentoriaLabel)}.`;
     window.open(`https://wa.me/${WA_NUMBER}?text=${msg}`, "_blank");
   };
 

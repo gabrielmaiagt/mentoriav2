@@ -437,6 +437,7 @@ export default function OnboardingPage() {
     async (id: string) => {
       sessionStorage.setItem("onboarding_back", JSON.stringify({ nome, telefone, nivel }));
       sessionStorage.setItem("lead_nome", nome);
+      sessionStorage.setItem("lead_mentoria", id);
       try {
         await saveLead({
           nome,
