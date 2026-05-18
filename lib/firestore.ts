@@ -19,6 +19,7 @@ export interface Lead {
   nome: string;
   telefone: string;
   mentoria: string;
+  nivel?: string;
   status: LeadStatus;
   etapaAtual: string;
   createdAt?: Timestamp;

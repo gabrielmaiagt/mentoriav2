@@ -448,7 +448,7 @@ export default function OnboardingPage() {
       const jaRegistrado = sessionStorage.getItem("lead_saved");
       if (!jaRegistrado) {
         try {
-          await saveLead({ nome, telefone, mentoria: id, status: "Novo", etapaAtual: "escolha" });
+          await saveLead({ nome, telefone, mentoria: id, nivel, status: "Novo", etapaAtual: "escolha" });
           sessionStorage.setItem("lead_saved", "1");
         } catch (e) {
           console.error("Firestore error:", e);

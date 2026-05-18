@@ -273,12 +273,13 @@ export default function AdminDashboard() {
             className="grid grid-cols-12 gap-4 px-6 py-3 text-xs font-semibold"
             style={{ background: "#0D0D12", color: "#9B9BA1", letterSpacing: "0.08em", borderBottom: "1px solid rgba(255,255,255,0.06)" }}
           >
-            <div className="col-span-3">NOME</div>
-            <div className="col-span-3">TELEFONE</div>
+            <div className="col-span-2">NOME</div>
+            <div className="col-span-2">TELEFONE</div>
             <div className="col-span-2">MENTORIA</div>
+            <div className="col-span-2">NÍVEL</div>
             <div className="col-span-2">STATUS</div>
             <div className="col-span-1">DATA</div>
-            <div className="col-span-1 flex gap-1">AÇÃO</div>
+            <div className="col-span-1">AÇÃO</div>
           </div>
 
           {/* Rows */}
@@ -310,14 +311,23 @@ export default function AdminDashboard() {
                   onMouseEnter={(e) => (e.currentTarget.style.background = "#12121A")}
                   onMouseLeave={(e) => (e.currentTarget.style.background = i % 2 === 0 ? "#0D0D12" : "#0A0A0F")}
                 >
-                  <div className="col-span-3 font-medium truncate" style={{ color: "#F4F4F5" }}>{lead.nome}</div>
-                  <div className="col-span-3 font-mono text-xs truncate" style={{ color: "#9B9BA1" }}>{lead.telefone}</div>
+                  <div className="col-span-2 font-medium truncate" style={{ color: "#F4F4F5" }}>{lead.nome}</div>
+                  <div className="col-span-2 font-mono text-xs truncate" style={{ color: "#9B9BA1" }}>{lead.telefone}</div>
                   <div className="col-span-2">
                     <span
                       className="text-xs px-2.5 py-1 rounded-md font-medium capitalize"
                       style={{ background: "rgba(139,92,246,0.1)", color: "#A855F7" }}
                     >
                       {lead.mentoria}
+                    </span>
+                  </div>
+                  <div className="col-span-2">
+                    <span className="text-xs" style={{ color: "#9B9BA1" }}>
+                      {lead.nivel === "iniciante" ? "Iniciante"
+                        : lead.nivel === "basico" ? "Sabe o básico"
+                        : lead.nivel === "fatura" ? "Já fatura"
+                        : lead.nivel === "escala" ? "Escala c/ gargalos"
+                        : "—"}
                     </span>
                   </div>
                   <div className="col-span-2">
