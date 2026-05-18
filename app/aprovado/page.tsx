@@ -22,8 +22,10 @@ export default function AprovadoPage() {
 
   const mentoriaLabel = mentoria === "x1"
     ? "Mentoria X1"
-    : mentoria === "tiktok"
+    : mentoria === "trafego"
     ? "Mentoria de Tráfego Direto"
+    : mentoria === "tiktok"
+    ? "Mentoria de TikTok Ads"
     : "mentoria";
 
   const handleWhatsApp = () => {

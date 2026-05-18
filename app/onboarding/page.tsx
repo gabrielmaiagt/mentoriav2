@@ -244,21 +244,25 @@ const mentorias = [
     title: "Mentoria X1",
     description: "Aprenda a vender low ticket usando WhatsApp, criativos e estrutura simples.",
     price: "R$1.200",
-    tags: ["Conversão", "WhatsApp", "Low Ticket"],
+    locked: false,
+  },
+  {
+    id: "trafego",
+    title: "Mentoria Tráfego Direto",
+    description: "Oferta, criativo, validação e escala usando Facebook Ads rodando tráfego direto.",
+    price: "R$1.500",
     locked: false,
   },
   {
     id: "tiktok",
-    title: "Mentoria Tráfego Direto & TikTok Ads",
-    description: "Oferta, criativo, validação e escala usando Facebook Ads e TikTok Ads rodando tráfego direto.",
-    price: "R$1.500",
-    tags: ["Escala", "TikTok", "Validação"],
+    title: "Mentoria TikTok Ads",
+    description: "Oferta, criativo, validação e escala usando TikTok Ads rodando tráfego direto.",
+    price: "R$1.700",
     locked: false,
   },
-
 ];
 
-function StepEscolha({ onNext }: { onNext: (id: string) => void }) {
+function StepEscolha({ onNext, saving }: { onNext: (id: string) => void; saving?: boolean }) {
   return (
     <StepWrapper wide>
       <StepLabel>05 / 05</StepLabel>
@@ -271,14 +275,14 @@ function StepEscolha({ onNext }: { onNext: (id: string) => void }) {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2 + i * 0.1 }}
-            whileHover={!m.locked ? { y: -4, boxShadow: "0 0 30px rgba(168,85,247,0.2)" } : undefined}
-            onClick={() => !m.locked && onNext(m.id)}
+            whileHover={!m.locked && !saving ? { y: -4, boxShadow: "0 0 30px rgba(168,85,247,0.2)" } : undefined}
+            onClick={() => !m.locked && !saving && onNext(m.id)}
             className="flex flex-col p-6 rounded-2xl relative overflow-hidden"
             style={{
               background: "#0D0D12",
               border: `1px solid ${m.locked ? "rgba(255,255,255,0.04)" : "rgba(255,255,255,0.08)"}`,
-              cursor: m.locked ? "not-allowed" : "pointer",
-              opacity: m.locked ? 0.5 : 1,
+              cursor: m.locked || saving ? "not-allowed" : "pointer",
+              opacity: m.locked ? 0.5 : saving ? 0.6 : 1,
               transition: "all 0.25s ease",
             }}
           >
@@ -393,6 +397,7 @@ export default function OnboardingPage() {
   const [nome, setNome] = useState("");
   const [telefone, setTelefone] = useState("");
   const [nivel, setNivel] = useState("");
+  const [saving, setSaving] = useState(false);
 
   useEffect(() => {
     const raw = sessionStorage.getItem("onboarding_back");
@@ -435,23 +440,23 @@ export default function OnboardingPage() {
 
   const handleMentoria = useCallback(
     async (id: string) => {
+      if (saving) return;
+      setSaving(true);
       sessionStorage.setItem("onboarding_back", JSON.stringify({ nome, telefone, nivel }));
       sessionStorage.setItem("lead_nome", nome);
       sessionStorage.setItem("lead_mentoria", id);
-      try {
-        await saveLead({
-          nome,
-          telefone,
-          mentoria: id,
-          status: "Novo",
-          etapaAtual: "escolha",
-        });
-      } catch (e) {
-        console.error("Firestore error:", e);
+      const jaRegistrado = sessionStorage.getItem("lead_saved");
+      if (!jaRegistrado) {
+        try {
+          await saveLead({ nome, telefone, mentoria: id, status: "Novo", etapaAtual: "escolha" });
+          sessionStorage.setItem("lead_saved", "1");
+        } catch (e) {
+          console.error("Firestore error:", e);
+        }
       }
       router.push(`/mentoria/${id}`);
     },
-    [nome, telefone, nivel, router]
+    [nome, telefone, nivel, router, saving]
   );
 
   return (
@@ -482,7 +487,7 @@ export default function OnboardingPage() {
           {step === 2 && <StepWhatsApp key="phone" onNext={handlePhone} />}
           {step === 3 && <StepMentalidade key="mental" onNext={handleMentalidade} />}
           {step === 4 && <StepNivel key="nivel" onNext={handleNivel} />}
-          {step === 5 && <StepEscolha key="escolha" onNext={handleMentoria} />}
+          {step === 5 && <StepEscolha key="escolha" onNext={handleMentoria} saving={saving} />}
         </AnimatePresence>
       </main>
     </div>

@@ -35,6 +35,10 @@ export async function updateLeadStatus(id: string, status: LeadStatus) {
   return updateDoc(doc(db, "leads", id), { status });
 }
 
+export async function deleteLead(id: string): Promise<void> {
+  return deleteDoc(doc(db, "leads", id));
+}
+
 export async function deleteAllLeads(): Promise<void> {
   const snap = await getDocs(collection(db, "leads"));
   await Promise.all(snap.docs.map((d) => deleteDoc(doc(db, "leads", d.id))));

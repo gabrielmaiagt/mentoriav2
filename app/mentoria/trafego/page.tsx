@@ -7,18 +7,14 @@ import { useRef, useEffect } from "react";
 import BackgroundAtmosphere from "@/components/BackgroundAtmosphere";
 import Navbar from "@/components/Navbar";
 
-type SlideItem =
-  | { type: "video"; vimeoId: string }
-  | { type: "image"; src: string };
-
-const slides: SlideItem[] = [
-  { type: "image", src: "https://i.ibb.co/m5GcK1rW/Whats-App-Image-2026-05-18-at-09-37-25.jpg" },
-  { type: "image", src: "https://i.ibb.co/d4jwgby1/Save-Clip-App-698504967-17922607809340101-235398308030953440-n.jpg" },
-  { type: "image", src: "https://i.ibb.co/jv2ccgH0/Save-Clip-App-669910417-876471362118093-5038536503030263133-n.jpg" },
-  { type: "video", vimeoId: "1193243880" },
+const testimonialImages = [
+  "https://i.ibb.co/rKBVR65Y/Save-Clip-App-658843720-17916309438340101-3104349415305175320-n.jpg",
+  "https://i.ibb.co/h1164MG6/Save-Clip-App-658686897-17915940567340101-623432833824997573-n.jpg",
+  "https://i.ibb.co/qYz1F8QF/Save-Clip-App-670880291-17916917487340101-2243092010908097548-n.jpg",
+  "https://i.ibb.co/XkLY18JR/Save-Clip-App-674430304-17918142069340101-4152913410559866342-n.jpg",
 ];
 
-export default function MentoriaTikTok() {
+export default function MentoriaTrafego() {
   const router = useRouter();
   const scrollRef = useRef<HTMLDivElement>(null);
 
@@ -76,10 +72,10 @@ export default function MentoriaTikTok() {
               className="font-black uppercase leading-[0.95] mb-5"
               style={{ fontSize: "clamp(2rem, 5.5vw, 3.4rem)", color: "#fff", letterSpacing: "-0.01em" }}
             >
-              TikTok Ads do jeito certo.
+              Tráfego Direto com Facebook Ads do jeito certo.
             </h1>
             <p style={{ color: "rgba(255,255,255,0.7)", fontSize: "1rem", lineHeight: "1.6" }}>
-              Oferta, criativo, validação e escala usando TikTok Ads rodando tráfego direto.
+              Oferta, criativo, validação e escala usando Facebook Ads rodando tráfego direto.
             </p>
           </motion.div>
         </div>
@@ -98,7 +94,7 @@ export default function MentoriaTikTok() {
           >
             <div className="text-xs font-semibold mb-4" style={{ color: "#A855F7", letterSpacing: "0.15em" }}>OBJETIVO DA MENTORIA</div>
             <p className="leading-relaxed text-lg" style={{ color: "#F4F4F5" }}>
-              Dominar as estruturas de tráfego direto no TikTok Ads — criar criativos que convertem, validar ofertas com investimento mínimo e escalar de forma previsível.
+              Dominar as estruturas de tráfego direto no Facebook Ads — criar criativos que convertem, validar ofertas com investimento mínimo e escalar de forma previsível.
             </p>
           </motion.div>
         </div>
@@ -108,7 +104,6 @@ export default function MentoriaTikTok() {
       <section className="relative z-10 py-6">
         <div className="max-w-2xl mx-auto px-4 flex flex-col gap-4">
 
-          {/* Narrative */}
           <motion.p
             initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
             style={{ color: "#9B9BA1", fontSize: "1rem", lineHeight: "1.75" }}
@@ -123,51 +118,19 @@ export default function MentoriaTikTok() {
             <div className="flex items-center justify-between mb-4">
               <p className="font-black text-base" style={{ color: "#F4F4F5" }}>Resultados próprios:</p>
               <div className="flex gap-2">
-                <button
-                  onClick={() => scrollBy(-1)}
-                  className="w-8 h-8 rounded-full flex items-center justify-center"
-                  style={{ background: "rgba(139,92,246,0.15)", border: "1px solid rgba(168,85,247,0.3)" }}
-                >
-                  <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-                    <path d="M9 2L4 7L9 12" stroke="#A855F7" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-                  </svg>
+                <button onClick={() => scrollBy(-1)} className="w-8 h-8 rounded-full flex items-center justify-center" style={{ background: "rgba(139,92,246,0.15)", border: "1px solid rgba(168,85,247,0.3)" }}>
+                  <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M9 2L4 7L9 12" stroke="#A855F7" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" /></svg>
                 </button>
-                <button
-                  onClick={() => scrollBy(1)}
-                  className="w-8 h-8 rounded-full flex items-center justify-center"
-                  style={{ background: "rgba(139,92,246,0.15)", border: "1px solid rgba(168,85,247,0.3)" }}
-                >
-                  <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-                    <path d="M5 2L10 7L5 12" stroke="#A855F7" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-                  </svg>
+                <button onClick={() => scrollBy(1)} className="w-8 h-8 rounded-full flex items-center justify-center" style={{ background: "rgba(139,92,246,0.15)", border: "1px solid rgba(168,85,247,0.3)" }}>
+                  <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M5 2L10 7L5 12" stroke="#A855F7" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" /></svg>
                 </button>
               </div>
             </div>
-            <div
-              ref={scrollRef}
-              className="flex overflow-x-hidden"
-              style={{ scrollSnapType: "x mandatory", WebkitOverflowScrolling: "touch", scrollbarWidth: "none" }}
-            >
-              {slides.map((slide, i) => (
-                <div
-                  key={i}
-                  className="flex-shrink-0 px-3"
-                  style={{ width: "100%", scrollSnapAlign: "start" }}
-                >
+            <div ref={scrollRef} className="flex overflow-x-hidden" style={{ scrollSnapType: "x mandatory", WebkitOverflowScrolling: "touch", scrollbarWidth: "none" }}>
+              {testimonialImages.map((src, i) => (
+                <div key={src} className="flex-shrink-0 px-3" style={{ width: "100%", scrollSnapAlign: "start" }}>
                   <div className="rounded-2xl overflow-hidden" style={{ border: "1px solid rgba(168,85,247,0.15)" }}>
-                    {slide.type === "video" ? (
-                      <div style={{ padding: "177.78% 0 0 0", position: "relative" }}>
-                        <iframe
-                          src={`https://player.vimeo.com/video/${slide.vimeoId}?badge=0&autopause=0&player_id=0&app_id=58479&autoplay=1&muted=1&loop=1`}
-                          frameBorder="0"
-                          allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media"
-                          style={{ position: "absolute", top: 0, left: 0, width: "100%", height: "100%" }}
-                          title="Resultado"
-                        />
-                      </div>
-                    ) : (
-                      <img src={slide.src} alt={`Resultado ${i + 1}`} className="w-full h-auto object-cover" loading="lazy" />
-                    )}
+                    <img src={src} alt={`Resultado ${i + 1}`} className="w-full h-auto object-cover" loading="lazy" />
                   </div>
                 </div>
               ))}
@@ -197,8 +160,8 @@ export default function MentoriaTikTok() {
             <p className="font-bold text-sm mb-4" style={{ color: "#A855F7", letterSpacing: "0.05em" }}>O processo completo em 5 etapas:</p>
             <ol className="flex flex-col gap-3">
               {[
-                { n: "1", t: "Estrutura da conta", d: "configurar sua BC, farmar/comprar do zero para performance máxima desde o início, e evitar bloqueios e maior aprovação de ofertas e criativos" },
-                { n: "2", t: "Criativos de TikTok", d: "como produzir criativos que escalam e aprovam no TikTok Ads" },
+                { n: "1", t: "Estrutura da conta", d: "configurar a conta de anúncios do zero para performance máxima desde o início" },
+                { n: "2", t: "Criativo de DR", d: "como produzir criativos que escalam" },
                 { n: "3", t: "Construção da oferta", d: "como escolher e montar ofertas vencedoras" },
                 { n: "4", t: "Validação com pouco", d: "protocolo de teste de oferta com investimento mínimo antes de escalar" },
                 { n: "5", t: "Escala da operação", d: "como escalar de forma simples" },
@@ -214,6 +177,17 @@ export default function MentoriaTikTok() {
             </ol>
           </motion.div>
 
+          {/* Destaque */}
+          <motion.div
+            initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.25 }}
+            className="p-6 rounded-2xl text-sm leading-relaxed"
+            style={{ background: "#0D0D12", border: "1px solid rgba(255,255,255,0.07)", color: "#9B9BA1" }}
+          >
+            Você vai sair sabendo usar o{" "}
+            <span className="font-bold" style={{ color: "#F4F4F5" }}>Modelo de Tráfego Direto</span>
+            , o critério que uso para decidir se uma oferta tem potencial: criativo validado + funil convertendo + margem para escala. Sem os três, não escalo prejuízo.
+          </motion.div>
+
         </div>
       </section>
 
@@ -227,9 +201,7 @@ export default function MentoriaTikTok() {
           >
             <div className="flex items-start justify-between gap-3 mb-1">
               <h2 className="font-black text-xl" style={{ color: "#F4F4F5" }}>O que você vai receber:</h2>
-              <span className="flex-shrink-0 text-xs font-bold px-3 py-1.5 rounded-full" style={{ background: "rgba(168,85,247,0.15)", color: "#A855F7", border: "1px solid rgba(168,85,247,0.3)", letterSpacing: "0.1em" }}>
-                INDIVIDUAL
-              </span>
+              <span className="flex-shrink-0 text-xs font-bold px-3 py-1.5 rounded-full" style={{ background: "rgba(168,85,247,0.15)", color: "#A855F7", border: "1px solid rgba(168,85,247,0.3)", letterSpacing: "0.1em" }}>INDIVIDUAL</span>
             </div>
             <p className="text-xs mb-6" style={{ color: "#9B9BA1" }}>Mentoria 1 a 1 diretamente com Gabriel Maia, do início ao fim.</p>
 
@@ -246,12 +218,7 @@ export default function MentoriaTikTok() {
             <div className="mb-5" style={{ borderTop: "1px solid rgba(255,255,255,0.05)", paddingTop: "1.25rem" }}>
               <p className="text-xs font-bold mb-3" style={{ color: "#A855F7", letterSpacing: "0.15em" }}>SUPORTE & ACOMPANHAMENTO</p>
               <div className="flex flex-col gap-3">
-                {[
-                  "Suporte direto no WhatsApp comigo (Gabriel Maia) durante toda a mentoria",
-                  "Acompanhamento individual do zero até a escala",
-                  "Revisão de criativos, copy e estrutura em tempo real",
-                  "Calls Ilimitadas",
-                ].map((item) => (
+                {["Suporte direto no WhatsApp comigo (Gabriel Maia) durante toda a mentoria", "Acompanhamento individual do zero até a escala", "Revisão de criativos, copy e estrutura em tempo real", "Calls Ilimitadas"].map((item) => (
                   <div key={item} className="flex items-start gap-3">
                     <div className="w-5 h-5 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5" style={{ background: "rgba(139,92,246,0.15)", border: "1px solid rgba(168,85,247,0.3)" }}>
                       <svg width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M1.5 5L3.8 7.5L8.5 2.5" stroke="#A855F7" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg>
@@ -265,15 +232,7 @@ export default function MentoriaTikTok() {
             <div style={{ borderTop: "1px solid rgba(255,255,255,0.05)", paddingTop: "1.25rem" }}>
               <p className="text-xs font-bold mb-3" style={{ color: "#A855F7", letterSpacing: "0.15em" }}>FERRAMENTAS & BÔNUS</p>
               <div className="flex flex-col gap-3">
-                {[
-                  "Conteúdo Gravado",
-                  "Biblioteca de criativos e ofertas validadas",
-                  "Funis prontos",
-                  "Contato de donos de gateway",
-                  "Descontos em BC e BM (ativos)",
-                  "Grupo de Networking privado",
-                  "Acesso vitalício ao material da mentoria",
-                ].map((item) => (
+                {["Conteúdo Gravado", "Biblioteca de criativos e ofertas validadas", "Funis prontos", "Contato de donos de gateway", "Descontos em BC e BM (ativos)", "Grupo de Networking privado", "Acesso vitalício ao material da mentoria"].map((item) => (
                   <div key={item} className="flex items-start gap-3">
                     <div className="w-5 h-5 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5" style={{ background: "rgba(139,92,246,0.15)", border: "1px solid rgba(168,85,247,0.3)" }}>
                       <svg width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M1.5 5L3.8 7.5L8.5 2.5" stroke="#A855F7" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg>
@@ -291,30 +250,17 @@ export default function MentoriaTikTok() {
       <section className="relative z-10 pt-4 pb-12">
         <div className="max-w-2xl mx-auto px-6">
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
+            initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6 }}
             className="p-6 rounded-2xl"
             style={{ background: "#0D0D12", border: "1px solid rgba(255,255,255,0.08)" }}
           >
-            <h2 className="font-black text-lg mb-5" style={{ color: "#F4F4F5", letterSpacing: "-0.01em" }}>
-              Escolha sua forma de pagamento:
-            </h2>
+            <h2 className="font-black text-lg mb-5" style={{ color: "#F4F4F5", letterSpacing: "-0.01em" }}>Escolha sua forma de pagamento:</h2>
             <div className="grid grid-cols-2 gap-3 mb-6">
               {[
-                { tipo: "À VISTA", metodo: "Via PIX", preco: "R$ 1.700,00", detalhe: "sem juros" },
-                { tipo: "PARCELADO", metodo: "Cartão", preco: "R$ 1.700,00", detalhe: "até 12x + juros" },
+                { tipo: "À VISTA", metodo: "Via PIX", preco: "R$ 1.500,00", detalhe: "sem juros" },
+                { tipo: "PARCELADO", metodo: "Cartão", preco: "R$ 1.500,00", detalhe: "até 12x + juros" },
               ].map((p, i) => (
-                <motion.div
-                  key={p.tipo}
-                  initial={{ opacity: 0, y: 10 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: i * 0.08 }}
-                  className="p-4 rounded-xl flex flex-col gap-1"
-                  style={{ background: "#13131A", border: "1px solid rgba(255,255,255,0.07)" }}
-                >
+                <motion.div key={p.tipo} initial={{ opacity: 0, y: 10 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.08 }} className="p-4 rounded-xl flex flex-col gap-1" style={{ background: "#13131A", border: "1px solid rgba(255,255,255,0.07)" }}>
                   <span className="text-xs font-semibold" style={{ color: "#9B9BA1", letterSpacing: "0.12em" }}>{p.tipo}</span>
                   <span className="font-bold text-sm" style={{ color: "#F4F4F5" }}>{p.metodo}</span>
                   <span className="font-black text-base" style={{ color: "#A855F7" }}>{p.preco}</span>
@@ -323,27 +269,12 @@ export default function MentoriaTikTok() {
               ))}
             </div>
             <Link href="/aprovado">
-              <motion.button
-                whileHover={{ scale: 1.02, boxShadow: "0 0 40px rgba(168,85,247,0.4)" }}
-                whileTap={{ scale: 0.98 }}
-                className="w-full py-4 rounded-xl font-bold text-base"
-                style={{
-                  background: "linear-gradient(135deg, #8B5CF6 0%, #A855F7 100%)",
-                  color: "#fff",
-                  boxShadow: "0 0 24px rgba(168,85,247,0.28)",
-                  letterSpacing: "0.04em",
-                }}
-              >
+              <motion.button whileHover={{ scale: 1.02, boxShadow: "0 0 40px rgba(168,85,247,0.4)" }} whileTap={{ scale: 0.98 }} className="w-full py-4 rounded-xl font-bold text-base" style={{ background: "linear-gradient(135deg, #8B5CF6 0%, #A855F7 100%)", color: "#fff", boxShadow: "0 0 24px rgba(168,85,247,0.28)", letterSpacing: "0.04em" }}>
                 Quero garantir minha vaga
               </motion.button>
             </Link>
             <Link href="/nao-agora">
-              <p
-                className="text-center text-sm mt-4 cursor-pointer"
-                style={{ color: "#9B9BA1", transition: "color 0.2s" }}
-                onMouseEnter={(e) => (e.currentTarget.style.color = "#F4F4F5")}
-                onMouseLeave={(e) => (e.currentTarget.style.color = "#9B9BA1")}
-              >
+              <p className="text-center text-sm mt-4 cursor-pointer" style={{ color: "#9B9BA1", transition: "color 0.2s" }} onMouseEnter={(e) => (e.currentTarget.style.color = "#F4F4F5")} onMouseLeave={(e) => (e.currentTarget.style.color = "#9B9BA1")}>
                 Não estou com esse valor agora
               </p>
             </Link>
@@ -355,10 +286,7 @@ export default function MentoriaTikTok() {
       <section className="relative z-10 pt-0 pb-10">
         <div className="max-w-2xl mx-auto px-4">
           <p className="text-xs font-bold mb-4" style={{ color: "#9B9BA1", letterSpacing: "0.2em" }}>DÚVIDAS FREQUENTES</p>
-          <div
-            className="p-6 rounded-2xl"
-            style={{ background: "#0D0D12", border: "1px solid rgba(255,255,255,0.07)" }}
-          >
+          <div className="p-6 rounded-2xl" style={{ background: "#0D0D12", border: "1px solid rgba(255,255,255,0.07)" }}>
             <p className="font-bold text-sm mb-2" style={{ color: "#F4F4F5" }}>Quanto de caixa preciso além do valor da mentoria?</p>
             <p className="text-sm leading-relaxed" style={{ color: "#9B9BA1" }}>Pelo menos R$1.000 de caixa.</p>
           </div>
@@ -366,9 +294,7 @@ export default function MentoriaTikTok() {
       </section>
 
       <div className="relative z-10 pb-8 flex justify-center">
-        <span className="text-xs" style={{ color: "rgba(155,155,161,0.25)", letterSpacing: "0.1em" }}>
-          ANTI-FLUXO © 2025 — ESTRUTURA PRIVADA
-        </span>
+        <span className="text-xs" style={{ color: "rgba(155,155,161,0.25)", letterSpacing: "0.1em" }}>ANTI-FLUXO © 2025 — ESTRUTURA PRIVADA</span>
       </div>
     </div>
   );
